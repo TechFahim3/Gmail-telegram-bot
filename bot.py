@@ -160,7 +160,15 @@ async def check_user_status(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     except Exception:
         pass
     return "no_sub"
-
+async def check_maintenance(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if MAINTENANCE_MODE:
+        await update.effective_message.reply_text(
+            "⚠️ <b>বট বর্তমানে মেইনটেন্যান্স মোডে আছে!</b>\n\n"
+            "আমাদের সার্ভারে কিছু কাজ চলছে, কিছুক্ষণ পর আবার ট্রাই করুন। আমাদের চ্যানেলের সাথেই থাকুন: @MHF_Earn_Money",
+            parse_mode="HTML"
+        )
+        return False # অপারেশন বন্ধ
+    return True # অপারেশন চালু
 # /start কমান্ড
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
