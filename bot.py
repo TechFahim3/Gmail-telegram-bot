@@ -1,3 +1,4 @@
+import os
 import logging
 import sqlite3
 import random
@@ -12,7 +13,6 @@ from telegram.ext import (
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 # --- ⚙️ কনফিগারেশন প্যানেল ---
-import os
 # নিচের এই লাইনটি বসান:
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 ADMIN_ID = int(os.getenv("ADMIN_ID")  
