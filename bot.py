@@ -698,17 +698,17 @@ def main():
     )
 
     # রুট কমান্ডস
-    application.add_handler(CommandHandler("start", start))
+        application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("admin", admin_panel))
-    
-    # কনভারসেশনাল ট্র্যাকারস
     application.add_handler(user_conv)
     application.add_handler(admin_conv)
     
-    # স্ট্যান্ডার্ড বাটন হ্যান্ডলারস
-application.add_handler(CallbackQueryHandler(handle_withdraw_action, pattern="^(app|rej)_")) # এটি সবার উপরে আনুন
-application.add_handler(CallbackQueryHandler(button_click, pattern="^(check_sub|account|refer|support|info|back_main)$"))
-application.add_handler(CallbackQueryHandler(admin_buttons, pattern="^admin_"))
+    application.add_handler(CallbackQueryHandler(handle_withdraw_action, pattern="^(app|rej)_"))
+    application.add_handler(CallbackQueryHandler(button_click, pattern="^(check_sub|account|refer|support|info|back_main)$"))
+    application.add_handler(CallbackQueryHandler(admin_buttons, pattern="^admin_"))
+
+    print("MHF Premium Automated Bot initialized...")
+    application.run_polling()
 
     print("MHF Premium Automated Bot successfully initialized...")
     application.run_polling()
