@@ -497,6 +497,11 @@ async def admin_buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif query.data == "admin_unban":
         await query.edit_message_text("🔓 আনব্যান করার জন্য মেম্বারের <b>ইউজার আইডি</b> দিন:")
         return ADMIN_UNBAN
+    elif query.data == "admin_toggle_maint":
+        global MAINTENANCE_MODE
+        MAINTENANCE_MODE = not MAINTENANCE_MODE
+        status = "ON (বট এখন বন্ধ)" if MAINTENANCE_MODE else "OFF (বট এখন চালু)"
+        await query.answer(f"Maintenance Mode is now {status}", show_alert=True)
     elif query.data == "admin_broadcast":
         await query.edit_message_text("📢 <b>গ্লোবাল ব্রডকাস্ট:</b> সকল মেম্বারদের ইনবক্সে পাঠানোর নোটিশটি লিখুন:")
         return ADMIN_BROADCAST
