@@ -12,8 +12,10 @@ from telegram.ext import (
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 # --- ⚙️ কনফিগারেশন প্যানেল ---
-BOT_TOKEN = "8652723150:AAHDqsddl_0ThxD0hR2zX-mhjCwsZZyT9Uw"
-ADMIN_ID = 7195140971  
+import os
+# নিচের এই লাইনটি বসান:
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+ADMIN_ID = int(os.getenv("ADMIN_ID")  
 CHANNEL_USERNAME = "@MHF_Earn_Money"  
 CHANNEL_LINK = "https://t.me/MHF_Earn_Money"
 
