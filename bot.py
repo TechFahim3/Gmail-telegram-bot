@@ -350,6 +350,9 @@ async def receive_file(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # ==================== 🏧 WITHDRAW CONVERSATION GATEWAY ====================
 
 async def withdraw_method_select(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not await check_maintenance(update, context): return ConversationHandler.END
+    # ... বাকি কোড ...
+
     query = update.callback_query
     await query.answer()
     
