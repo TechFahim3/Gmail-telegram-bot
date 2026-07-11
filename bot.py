@@ -374,17 +374,28 @@ async def withdraw_number_input(update: Update, context: ContextTypes.DEFAULT_TY
     method = context.user_data['w_method']
     amount = context.user_data['w_amount']
     
-    # ডেবিট অপারেশন
+    # পেমেন্ট পেন্ডিং স্ট্যাটাস (ডাটাবেসে একটি pending_withdraw টেবিল থাকা ভালো, তবে আপাতত ইউজার ব্যালেন্স কেটে রাখছি)
     update_balance(user.id, -amount)
     
-    # রিয়েল-টাইম এডমিন নোটিফিকেশন সিস্টেম
+    # বাটন সেটআপ
+    keyboard = [
+        [InlineKeyboardButton("✅ Approve", callback_data=f"app_{user.id}_{amount}"),
+         InlineKeyboardButton("❌ Reject", callback_data=f"rej_{user.id}_{amount}")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    
     admin_alert = f"🔔 <b>[WITHDRAWAL REQUEST PENDING]</b>\n\n" \
                   f"👤 ইউজার: <a href='tg://user?id={user.id}'>{user.first_name}</a>\n" \
                   f"🆔 আইডি: <code>{user.id}</code>\n" \
                   f"💰 পরিমাণ: <b>{amount} TK</b>\n" \
                   f"⚡ গেটওয়ে: <b>{method}</b>\n" \
-                  f"💳 অ্যাকাউন্ট অ্যাড্রেস: <code>{account_num}</code>\n\n" \
-                  f"ℹ️ পেমেন্ট কমপ্লিট করে ম্যানুয়ালি মেম্বারকে ইনফর্ম করুন।"
+                  f"💳 অ্যাকাউন্ট: <code>{account_num}</code>"
+                  
+    await context.bot.send_message(chat_id=ADMIN_ID, text=admin_alert, reply_markup=reply_markup, parse_mode="HTML")
+    
+    await update.message.reply_text(f"⚡ <b>আপনার উইথড্র রিকোয়েস্টটি এডমিনের কাছে পাঠানো হয়েছে!</b>", parse_mode="HTML")
+    await show_main_menu(update)
+    return ConversationHandler.END
                   
     await context.bot.send_message(chat_id=ADMIN_ID, text=admin_alert, parse_mode="HTML")
     
