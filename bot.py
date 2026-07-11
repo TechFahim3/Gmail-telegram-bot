@@ -229,7 +229,6 @@ async def show_main_menu(update: Update):
 
 # ইউজার ইন্টারফেস বাটন একশন
 async def button_click(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not await check_maintenance(update, context): return ConversationHandler.END # এখানে বসান
     # ... বাকি কোড ...
 
