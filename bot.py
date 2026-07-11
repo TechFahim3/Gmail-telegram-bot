@@ -592,6 +592,27 @@ async def admin_process_broadcast(update: Update, context: ContextTypes.DEFAULT_
         except: pass
     await update.message.reply_text(f"📢 ব্রডকাস্ট সফল! মোট {count} জনকে পাঠানো হয়েছে।")
     return ConversationHandler.END
+async def handle_withdraw_action(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+    
+    data = query.data.split("_")
+    action = data[0]
+    user_id = int(data[1])
+    amount = int(data[2])
+    
+    if action == "app":
+        await query.edit_message_text(f"✅ <b>উইথড্র সফলভাবে এপ্রুভ করা হয়েছে!</b>\nইউজার: {user_id}\nপরিমাণ: {amount} TK")
+        try:
+            await context.bot.send_message(chat_id=user_id, text=f"🎉 অভিনন্দন! আপনার <b>{amount} TK</b> উইথড্র রিকোয়েস্টটি এপ্রুভ করা হয়েছে। পেমেন্ট চেক করুন।", parse_mode="HTML")
+        except: pass
+        
+    elif action == "rej":
+        update_balance(user_id, amount) # টাকা ফেরত দেওয়া
+        await query.edit_message_text(f"❌ <b>উইথড্র রিজেক্ট করা হয়েছে।</b>\nইউজার: {user_id}\nটাকা ব্যালেন্সে ফেরত দেওয়া হয়েছে।")
+        try:
+            await context.bot.send_message(chat_id=user_id, text=f"⚠️ দুঃখিত! আপনার <b>{amount} TK</b> উইথড্র রিকোয়েস্টটি রিজেক্ট করা হয়েছে। টাকা আপনার ব্যালেন্সে ফেরত দেওয়া হয়েছে।", parse_mode="HTML")
+        except: pass
 
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.callback_query:
