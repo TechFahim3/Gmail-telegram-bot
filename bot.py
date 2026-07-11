@@ -449,6 +449,12 @@ async def admin_buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return ConversationHandler.END
 
     if query.data == "admin_stats":
+            elif query.data == "admin_toggle_maint":
+        global MAINTENANCE_MODE
+        MAINTENANCE_MODE = not MAINTENANCE_MODE
+        status = "ON (বট এখন বন্ধ)" if MAINTENANCE_MODE else "OFF (বট এখন চালু)"
+        await query.answer(f"Maintenance Mode is now {status}", show_alert=True)
+
         t_users, t_files, t_banned = get_stats()
         text = f"📊 <b>লাইভ সার্ভার পরিসংখ্যান:</b>\n\n👥 মোট রেজিস্টার্ড ইউজার: {t_users} জন\n📁 মোট আপলোডকৃত ডাটা ফাইল: {t_files} টি\n🚫 মোট ব্লকলিস্টেড ইউজার: {t_banned} জন"
         await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ ব্যাক", callback_data="admin_back")]]), parse_mode="HTML")
