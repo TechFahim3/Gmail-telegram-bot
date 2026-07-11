@@ -442,6 +442,7 @@ async def admin_panel(update: Update, context: ContextTypes.DEFAULT_TYPE):
         [InlineKeyboardButton("💰 Add Balance & Refer", callback_data="admin_addbal"), InlineKeyboardButton("➖ Remove Balance", callback_data="admin_rembal")],
         [InlineKeyboardButton("🔍 Check User Profile", callback_data="admin_checkuser"), InlineKeyboardButton("📢 Global Broadcast", callback_data="admin_broadcast")],
         [InlineKeyboardButton("🚫 Ban Member", callback_data="admin_ban"), InlineKeyboardButton("🔓 Unban Member", callback_data="admin_unban")],
+        [InlineKeyboardButton("🛠 Toggle Maintenance", callback_data="admin_toggle_maint")],
         [InlineKeyboardButton("❌ ক্লোজ প্যানেল", callback_data="admin_close")]
     ]
     await update.message.reply_text("👑 <b>MHF Megapower Admin Operating Console</b>\n\n<i>নিরাপদ ডাইনামিক স্যালারি ও রেফারেল ডিস্ট্রিবিউশন ইঞ্জিন একটিভ আছে।</i>", reply_markup=InlineKeyboardMarkup(keyboard), parse_mode="HTML")
