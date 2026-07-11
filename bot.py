@@ -36,6 +36,8 @@ CHANNEL_LINK = "https://t.me/MHF_Earn_Money"
 GMAIL_PRICE = 25
 REFER_COMMISSION = 2
 MIN_WITHDRAW = 100  # 🎯 উইথড্র লিমিট 100 টাকা করা হয়েছে
+# --- 🛠 MAINTENANCE MODE ---
+MAINTENANCE_MODE = False  # বট বন্ধ করতে এটি True করে দিন
 
 # ==================== 🗄️ SQLITE SYSTEM ====================
 def init_db():
