@@ -475,6 +475,7 @@ async def admin_buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 [InlineKeyboardButton("💰 Add Balance & Refer", callback_data="admin_addbal"), InlineKeyboardButton("➖ Remove Balance", callback_data="admin_rembal")],
                 [InlineKeyboardButton("🔍 Check User Profile", callback_data="admin_checkuser"), InlineKeyboardButton("📢 Global Broadcast", callback_data="admin_broadcast")],
                 [InlineKeyboardButton("🚫 Ban Member", callback_data="admin_ban"), InlineKeyboardButton("🔓 Unban Member", callback_data="admin_unban")],
+                [InlineKeyboardButton("🛠 Toggle Maintenance", callback_data="admin_toggle_maint")],
                 [InlineKeyboardButton("❌ ক্লোজ প্যানেল", callback_data="admin_close")]
             ]
             await context.bot.send_message(chat_id=ADMIN_ID, text="👑 <b>MHF Megapower Admin Operating Console</b>", reply_markup=InlineKeyboardMarkup(keyboard), parse_mode="HTML")
