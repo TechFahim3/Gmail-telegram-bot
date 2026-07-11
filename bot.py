@@ -8,13 +8,11 @@ from telegram.ext import (
     Application, CommandHandler, CallbackQueryHandler, 
     MessageHandler, filters, ContextTypes, ConversationHandler
 )
-
 # লগিং কনফিগারেশন
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
-
 # --- ⚙️ কনফিগারেশন প্যানেল ---
 # নিচের এই লাইনটি বসান:
-BOT_TOKEN = os.getenv("BOT_TOKEN")
+BOT_TOKEN = os.getenv("BOT_TOKEN") 
 ADMIN_ID = int(os.getenv("ADMIN_ID")  
 CHANNEL_USERNAME = "@MHF_Earn_Money"  
 CHANNEL_LINK = "https://t.me/MHF_Earn_Money"
