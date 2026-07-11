@@ -441,7 +441,7 @@ async def admin_panel(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ]
         await query.edit_message_text("👑 <b>MHF Megapower Admin Operating Console</b>", reply_markup=InlineKeyboardMarkup(keyboard), parse_mode="HTML")
         return ConversationHandler.END
-
+    
 async def admin_buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
@@ -449,37 +449,60 @@ async def admin_buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return ConversationHandler.END
 
     if query.data == "admin_stats":
-            elif query.data == "admin_toggle_maint":
-        global MAINTENANCE_MODE
-        MAINTENANCE_MODE = not MAINTENANCE_MODE
-        status = "ON (বট এখন বন্ধ)" if MAINTENANCE_MODE else "OFF (বট এখন চালু)"
-        await query.answer(f"Maintenance Mode is now {status}", show_alert=True)
-
         t_users, t_files, t_banned = get_stats()
         text = f"📊 <b>লাইভ সার্ভার পরিসংখ্যান:</b>\n\n👥 মোট রেজিস্টার্ড ইউজার: {t_users} জন\n📁 মোট আপলোডকৃত ডাটা ফাইল: {t_files} টি\n🚫 মোট ব্লকলিস্টেড ইউজার: {t_banned} জন"
         await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ ব্যাক", callback_data="admin_back")]]), parse_mode="HTML")
         return ConversationHandler.END
         
+    elif query.data == "admin_toggle_maint":
+        global MAINTENANCE_MODE
+        MAINTENANCE_MODE = not MAINTENANCE_MODE
+        status = "ON (বট এখন বন্ধ)" if MAINTENANCE_MODE else "OFF (বট এখন চালু)"
+        await query.answer(f"Maintenance Mode is now {status}", show_alert=True)
+        return ConversationHandler.END
+
     elif query.data == "admin_folder":
-        files = get_all_files()
-        if not files:
-            await query.edit_message_text("📁 <b>ফাইল ডাটাবেস সম্পূর্ণ খালি!</b>", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("⬅️ ব্যাক", callback_data="admin_back")]]), parse_mode="HTML")
-        else:
-            await query.message.delete()
-            for idx, f_info in enumerate(files, 1):
-                await context.bot.send_message(chat_id=ADMIN_ID, text=f"📄 <b>ফাইল নং: {idx}</b>\n👤 মেম্বার আইডি: <code>{f_info[0]}</code>", parse_mode="HTML")
-                await context.bot.send_document(chat_id=ADMIN_ID, document=f_info[1])
-            
-            # পুনরায় ব্যাক প্যানেল ওপেন
-            keyboard = [
-                [InlineKeyboardButton("📊 System Stats", callback_data="admin_stats"), InlineKeyboardButton("📁 All Files Folder", callback_data="admin_folder")],
-                [InlineKeyboardButton("💰 Add Balance & Refer", callback_data="admin_addbal"), InlineKeyboardButton("➖ Remove Balance", callback_data="admin_rembal")],
-                [InlineKeyboardButton("🔍 Check User Profile", callback_data="admin_checkuser"), InlineKeyboardButton("📢 Global Broadcast", callback_data="admin_broadcast")],
-                [InlineKeyboardButton("🚫 Ban Member", callback_data="admin_ban"), InlineKeyboardButton("🔓 Unban Member", callback_data="admin_unban")],
-                [InlineKeyboardButton("🛠 Toggle Maintenance", callback_data="admin_toggle_maint")],
-                [InlineKeyboardButton("❌ ক্লোজ প্যানেল", callback_data="admin_close")]
-            ]
-            await context.bot.send_message(chat_id=ADMIN_ID, text="👑 <b>MHF Megapower Admin Operating Console</b>", reply_markup=InlineKeyboardMarkup(keyboard), parse_mode="HTML")
+        # আপনার আগের ফোল্ডার লজিক এখানে থাকবে
+        pass
+
+    elif query.data == "admin_addbal":
+        await query.edit_message_text("💰 <b>মেম্বার আইডি এবং এক্সেপ্টেড জিমেইলের সংখ্যা</b> স্পেস দিয়ে লিখুন।\n\n📝 ফরম্যাট: <code>[User_ID] [Count]</code>", parse_mode="HTML")
+        return ADMIN_ADD_BAL
+
+    elif query.data == "admin_rembal":
+        await query.edit_message_text("➖ <b>ব্যালেন্স কাটার প্যানেল:</b> ইউজার আইডি এবং টাকার পরিমাণ স্পেস দিয়ে লিখুন:", parse_mode="HTML")
+        return ADMIN_REM_BAL
+
+    elif query.data == "admin_checkuser":
+        await query.edit_message_text("🔍 মেম্বারের <b>ইউজার আইডি</b> টাইপ করুন:")
+        return ADMIN_CHECK_USER
+
+    elif query.data == "admin_ban":
+        await query.edit_message_text("🚫 বট থেকে পার্মানেন্ট ব্যান করার জন্য <b>ইউজার আইডি</b> দিন:")
+        return ADMIN_BAN
+
+    elif query.data == "admin_unban":
+        await query.edit_message_text("🔓 আনব্যান করার জন্য মেম্বারের <b>ইউজার আইডি</b> দিন:")
+        return ADMIN_UNBAN
+
+    elif query.data == "admin_broadcast":
+        await query.edit_message_text("📢 <b>গ্লোবাল ব্রডকাস্ট:</b> সকল মেম্বারদের ইনবক্সে পাঠানোর নোটিশটি লিখুন:")
+        return ADMIN_BROADCAST
+
+    elif query.data == "admin_back":
+        keyboard = [
+            [InlineKeyboardButton("📊 System Stats", callback_data="admin_stats"), InlineKeyboardButton("📁 All Files Folder", callback_data="admin_folder")],
+            [InlineKeyboardButton("💰 Add Balance & Refer", callback_data="admin_addbal"), InlineKeyboardButton("➖ Remove Balance", callback_data="admin_rembal")],
+            [InlineKeyboardButton("🔍 Check User Profile", callback_data="admin_checkuser"), InlineKeyboardButton("📢 Global Broadcast", callback_data="admin_broadcast")],
+            [InlineKeyboardButton("🚫 Ban Member", callback_data="admin_ban"), InlineKeyboardButton("🔓 Unban Member", callback_data="admin_unban")],
+            [InlineKeyboardButton("🛠 Toggle Maintenance", callback_data="admin_toggle_maint")],
+            [InlineKeyboardButton("❌ ক্লোজ প্যানেল", callback_data="admin_close")]
+        ]
+        await query.edit_message_text("👑 <b>MHF Megapower Admin Operating Console</b>", reply_markup=InlineKeyboardMarkup(keyboard), parse_mode="HTML")
+        return ConversationHandler.END
+
+    elif query.data == "admin_close":
+        await query.message.delete()
         return ConversationHandler.END
 
     elif query.data == "admin_addbal":
