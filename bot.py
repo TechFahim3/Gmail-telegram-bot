@@ -171,6 +171,9 @@ async def check_maintenance(update: Update, context: ContextTypes.DEFAULT_TYPE):
     return True # অপারেশন চালু
 # /start কমান্ড
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not await check_maintenance(update, context): return ConversationHandler.END # এখানে বসান
+    # ... বাকি কোড ...
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
     u = get_user(user.id)
     
