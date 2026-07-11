@@ -171,9 +171,12 @@ async def check_maintenance(update: Update, context: ContextTypes.DEFAULT_TYPE):
     return True # অপারেশন চালু
 # /start কমান্ড
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if not await check_maintenance(update, context): return ConversationHandler.END # এখানে বসান
+    # এটি বসাতে ভুলে গেছেন:
+    if not await check_maintenance(update, context): return ConversationHandler.END 
+    
+    user = update.effective_user
     # ... বাকি কোড ...
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
     user = update.effective_user
     u = get_user(user.id)
     
@@ -226,6 +229,10 @@ async def show_main_menu(update: Update):
 
 # ইউজার ইন্টারফেস বাটন একশন
 async def button_click(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not await check_maintenance(update, context): return ConversationHandler.END # এখানে বসান
+    # ... বাকি কোড ...
+
     query = update.callback_query
     await query.answer()
     user_id = query.from_user.id
