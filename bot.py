@@ -35,7 +35,7 @@ CHANNEL_LINK = "https://t.me/MHF_Earn_Money"
 # --- 💰 বিজনেস পলিসি ---
 GMAIL_PRICE = 25
 REFER_COMMISSION = 2
-MIN_WITHDRAW = 100  # 🎯 উইথড্র লিমিট ৩০০ টাকা করা হয়েছে
+MIN_WITHDRAW = 100  # 🎯 উইথড্র লিমিট 100 টাকা করা হয়েছে
 
 # ==================== 🗄️ SQLITE SYSTEM ====================
 def init_db():
